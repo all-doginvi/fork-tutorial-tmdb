@@ -4,9 +4,6 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import api from './plugins/axios'
 
-// Buscando gêneros dos filmes e programas de TV
-
-
   const moviesGenres = ref([]);
   const TVGenres = ref([]);
 
@@ -16,9 +13,6 @@ import api from './plugins/axios'
     response = await api.get('genre/tv/list?language=pt-BR');
     TVGenres.value = response.data.genres;
   })
-  
-  // ---------------------------------------------------------------------------------
-
 
 </script>
 
