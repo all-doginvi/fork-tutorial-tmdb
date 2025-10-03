@@ -1,32 +1,25 @@
 <script setup>
 
-  import { ref, onMounted } from 'vue';
-  import axios from 'axios';
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+import api from './plugins/axios'
+
+// Buscando gêneros dos filmes e programas de TV
+
 
   const moviesGenres = ref([]);
   const TVGenres = ref([]);
 
   onMounted(async () => {
-    let response = await axios.get(
-      'https://api.themoviedb.org/3/genre/movie/list?language=pt-BR',
-    {
-      headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjOTViMDIxNzZkODE4OWY4M2Y1YmQ0NjQyYzMxYTA5NSIsIm5iZiI6MTc1OTQzNDI0MS40MjIwMDAyLCJzdWIiOiI2OGRlZDYwMTBkZjQ0NmY2NGI0MDVmZGIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.LsOfZwsBvLeyc4tWjEoXHJP-_v4NZv1ZHhcftx9CLPM`,
-      },
-    },
-  );
-  moviesGenres.value = response.data.genres;
-  response = await axios.get(
-    'https://api.themoviedb.org/3/genre/tv/list?language=pt-BR',
-    {
-      headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjOTViMDIxNzZkODE4OWY4M2Y1YmQ0NjQyYzMxYTA5NSIsIm5iZiI6MTc1OTQzNDI0MS40MjIwMDAyLCJzdWIiOiI2OGRlZDYwMTBkZjQ0NmY2NGI0MDVmZGIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.LsOfZwsBvLeyc4tWjEoXHJP-_v4NZv1ZHhcftx9CLPM`,
-      },
-    },
-  );
-  TVGenres.value = response.data.genres;
-  });
+    let response = await api.get('genre/movie/list?language=pt-BR');
+    moviesGenres.value = response.data.genres;
+    response = await api.get('genre/tv/list?language=pt-BR');
+    TVGenres.value = response.data.genres;
+  })
   
+  // ---------------------------------------------------------------------------------
+
+
 </script>
 
 <template>
