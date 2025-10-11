@@ -10,7 +10,7 @@ export const useTvStore = defineStore('tv', () => {
     const currentTv = computed(() => state.currentTv);
 
     const getTvDetail = async (showId) => {
-        const response = await api.get(`movie/${showId}`);
+        const response = await api.get(`tv/${showId}`);
         state.currentTv = response.data;
     };
 
