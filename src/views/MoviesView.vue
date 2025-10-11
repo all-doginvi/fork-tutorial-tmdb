@@ -13,6 +13,8 @@
         return genero.name;
     }
 
+    const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR');
+    
     onMounted(async () => {
         const response = await api.get('genre/movie/list?language=pt-BR');
         genres.value = response.data.genres;
@@ -29,6 +31,7 @@
         movies.value = response.data.results;
         isLoading.value = false;
     }
+    
 
 </script>
 
@@ -46,7 +49,7 @@
                 <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" :alt="movie.title" />
                 <div class="movie-details">
                     <p class="movie-title">{{ movie.title }}</p>
-                    <p class="movie-realese-date">{{ movie.realese_date }}</p>
+                    <p class="movie-realese-date">{{ formatDate(movie.release_date) }}</p>
                     <p class="movie-genres">
                         <span v-for="genre_id in movie.genre_ids" :key="genre_id" @click="listMovies(genre_id)">
                             {{ getGenreName(genre_id) }}
