@@ -8,6 +8,12 @@ const genres = ref([]);
 const shows = ref([]);
 const isLoading = ref(false); 
 
+function getGenreName (id) {
+    const genero = genres.value.find((genre) => genre.id === id);
+    return genero.name;
+}
+
+
 onMounted(async () => {
     const response = await api.get('genre/tv/list?language=pt-BR');
     genres.value = response.data.genres;
@@ -39,7 +45,11 @@ const listTv = async (genreId) => {
             <div class="tv-details">
                 <p class="tv-title">{{ show.name }}</p>
                 <p class="tv-realese-date">{{ show.first_air_date }}</p>
-                <p class="tv-genres">{{ show.genre_ids }}</p>
+                <p class="tv-genres">
+                    <span v-for="genre_id in show.genre_ids" :key="genre_id" @click="listTv(genre_id)">
+                        {{ getGenreName(genre_id) }}
+                    </span>
+                </p>
             </div>
         </div>
     </div>
@@ -69,6 +79,30 @@ const listTv = async (genreId) => {
 
 .tv-details {
     padding: 0 0 0.5rem;
+}
+
+.tv-genres {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.2rem;
+}
+
+.tv-genres span {
+    background-color: #748708;
+    border-radius: 0.5rem;
+    padding: 0.2rem 0.5rem;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.tv-genres span:hover {
+    cursor: pointer;
+    background-color: #455a08;
+    box-shadow: 0 0 0.5rem #748708;
 }
 
 .genre-list {

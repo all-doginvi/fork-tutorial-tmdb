@@ -7,6 +7,11 @@
     const genres = ref([]);
     const movies = ref([]);
     const isLoading = ref(false);
+    
+    function getGenreName(id) {
+        const genero = genres.value.find((genre) => genre.id === id);
+        return genero.name;
+    }
 
     onMounted(async () => {
         const response = await api.get('genre/movie/list?language=pt-BR');
@@ -42,7 +47,11 @@
                 <div class="movie-details">
                     <p class="movie-title">{{ movie.title }}</p>
                     <p class="movie-realese-date">{{ movie.realese_date }}</p>
-                    <p class="movie-genres">{{ movie.genre_ids }}</p>
+                    <p class="movie-genres">
+                        <span v-for="genre_id in movie.genre_ids" :key="genre_id" @click="listMovies(genre_id)">
+                            {{ getGenreName(genre_id) }}
+                        </span>
+                    </p>
                 </div>
             </div>
         </div>
@@ -80,6 +89,30 @@
     font-weight: bold;
     line-height: 1.3rem;
     height: 3.2rem;
+}
+
+.movie-genres {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.2rem;
+}
+
+.movie-genres span {
+    background-color: #748708;
+    border-radius: 0.5rem;
+    padding: 0.2rem 0.5rem;
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.movie-genres span:hover {
+    cursor: pointer;
+    background-color: #455a08;
+    box-shadow: 0 0 0.5rem #748708;
 }
 
 .genre-list {
