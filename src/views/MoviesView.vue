@@ -4,11 +4,13 @@
     import { ref, onMounted } from 'vue';
     import api from '@/plugins/axios';
     import Loading from 'vue-loading-overlay';
-
+    import { useRouter } from 'vue-router';
+    
     const genres = ref([]);
     const movies = ref([]);
     const isLoading = ref(false);
     const genreStore = useGenreStore();
+    const router = useRouter();
 
     function getGenreName(id) {
         const genero = genres.value.find((genre) => genre.id === id);
@@ -36,6 +38,9 @@
         isLoading.value = false;
     }
     
+    function openMovie(movieId) {
+        router.push({ name: 'MovieDetails', params: {movieId} });
+    }
 
 </script>
 
@@ -50,7 +55,7 @@
         <loading v-model:active="isLoading" is-full-page />
         <div class="movie-list">
             <div v-for="movie in movies" :key="movie.id" class="movie-card">
-                <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" :alt="movie.title" />
+                <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" :alt="movie.title" @click="openMovie(movie.id)"/>
                 <div class="movie-details">
                     <p class="movie-title">{{ movie.title }}</p>
                     <p class="movie-realese-date">{{ formatDate(movie.release_date) }}</p>
