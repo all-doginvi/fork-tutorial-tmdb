@@ -22,6 +22,7 @@ onMounted(async () => {
 });
 
 const listTv = async (genreId) => {
+    genreStore.setCurrentGenreId(genreId);
     isLoading.value = true;
     const response = await api.get('discover/tv', {
         params: {
@@ -38,7 +39,7 @@ const listTv = async (genreId) => {
 <template>
     <h1>Programas de TV</h1>
     <ul class="genre-list">
-        <li v-for="genre in genreStore.genres" :key="genre.id" @click="listTv(genre.id)" class="genre-item"> {{ genre.name }} </li>
+        <li v-for="genre in genreStore.genres" :key="genre.id" @click="listTv(genre.id)" class="genre-item" :class="{ active: genre.id === genreStore.currentGenreId }"> {{ genre.name }} </li>
     </ul>
     <loading v-model:active="isLoading" is-full-page />
     <div class="tv-list">
@@ -48,7 +49,7 @@ const listTv = async (genreId) => {
                 <p class="tv-title">{{ show.name }}</p>
                 <p class="tv-realese-date">{{ show.first_air_date }}</p>
                 <p class="tv-genres">
-                    <span v-for="genre_id in show.genre_ids" :key="genre_id" @click="listTv(genre_id)">
+                    <span v-for="genre_id in show.genre_ids" :key="genre_id" @click="listTv(genre_id)" :class="{ active: genre_id === genreStore.currentGenreId}">
                         {{ genreStore.getGenreName(genre_id) }}
                     </span>
                 </p>
@@ -106,6 +107,18 @@ const listTv = async (genreId) => {
     background-color: #455a08;
     box-shadow: 0 0 0.5rem #748708;
 }
+
+.active {
+    background-color: #67b086;
+    font-weight: bolder;
+}
+
+.tv-genres span.active {
+    background-color: #abc322;
+    color: #000;
+    font-weight: bolder;
+}
+
 
 .genre-list {
     display: flex;
