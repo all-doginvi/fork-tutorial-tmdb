@@ -2,9 +2,11 @@
 
 import { ref, onMounted } from 'vue';
 import api from '@/plugins/axios'
+import Loading from 'vue-loading-overlay';
 
 const genres = ref([]);
 const shows = ref([]);
+const isLoading = ref(false); 
 
 onMounted(async () => {
     const response = await api.get('genre/tv/list?language=pt-BR');
@@ -12,6 +14,7 @@ onMounted(async () => {
 });
 
 const listTv = async (genreId) => {
+    isLoading.value = true;
     const response = await api.get('discover/tv', {
         params: {
             with_genres: genreId,
@@ -19,6 +22,7 @@ const listTv = async (genreId) => {
         }
     });
     shows.value = response.data.results;
+    isLoading.value = false;
 }
 
 </script>
@@ -28,6 +32,7 @@ const listTv = async (genreId) => {
     <ul class="genre-list">
         <li v-for="genre in genres" :key="genre.id" @click="listTv(genre.id)" class="genre-item"> {{ genre.name }} </li>
     </ul>
+    <loading v-model:active="isLoading" is-full-page />
     <div class="tv-list">
         <div v-for="show in shows" :key="show.id" class="tv-card">
             <img :src="`https://image.tmdb.org/t/p/w500${show.poster_path}`" :alt="show.name" />
