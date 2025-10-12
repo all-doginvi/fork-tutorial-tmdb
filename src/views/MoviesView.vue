@@ -53,6 +53,9 @@
             </li>
         </ul>
         <loading v-model:active="isLoading" is-full-page />
+
+        <hr />
+
         <div class="movie-list">
             <div v-for="movie in movies" :key="movie.id" class="movie-card">
                 <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" :alt="movie.title" @click="openMovie(movie.id)"/>
@@ -71,29 +74,48 @@
 </template>
 
 <style scoped>
+
+hr {
+    color: #dfdfdf89;
+    margin: 2rem 0 0 0;
+}
+
+
+
 .movie-list {
+    justify-content: center;
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 2rem;
+    padding: 2rem;
+    margin: 1.5rem 6rem 0 6rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.237);
+    background-color: rgba(0, 0, 0, 0.011);
+    border-radius: 0.5rem;
 }
 
 .movie-card {
+    background-color: white;
     width: 15rem;
-    height: 30rem;
+    height: 35rem;
     border-radius: 0.5rem;
     overflow: hidden;
-    box-shadow: 0 0 0.5rem #000;
+    box-shadow: 0 0 0.5rem rgb(219, 219, 219);
 }
 
 .movie-card img {
-    width: 100%;
+    width: 95%;
     height: 20rem;
+    margin: 0.5vw 0 0 0;
+    transform: translateX(2.5%);
     border-radius: 0.5rem;
-    box-shadow: 0 0 0.5rem #000;
+    box-shadow: 0 0 0.5rem rgb(165, 165, 165);
 }
 
 .movie-details {
-    padding: 0 0 0.5rem;
+    font-size: 1.2rem;
+    text-align: center;
+    margin: 0.5vw 0.1rem 0 0.1rem;
 }
 
 .movie-title {
@@ -104,6 +126,7 @@
 }
 
 .movie-genres {
+    margin: 1rem 0.5vw 0 0.5vw;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -149,10 +172,13 @@
 }
 
 .genre-item {
-    background-color: #387250;
+    background-color: #616543;
     border-radius: 1rem;
     padding: 0.5rem 1rem;
+    align-self: center;
     color: #fff;
+    display: flex;
+    justify-content: center;
 }
 
 .genre-item:hover {

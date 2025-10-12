@@ -8,11 +8,11 @@ import { useRouter } from 'vue-router';
 
 const genres = ref([]);
 const shows = ref([]);
-const isLoading = ref(false); 
+const isLoading = ref(false);
 const genreStore = useGenreStore();
 const router = useRouter();
 
-function getGenreName (id) {
+function getGenreName(id) {
     const genero = genres.value.find((genre) => genre.id === id);
     return genero.name;
 }
@@ -37,7 +37,7 @@ const listTv = async (genreId) => {
 }
 
 function openTv(showId) {
-    router.push({ name: 'TvDetails', params: {showId} });
+    router.push({ name: 'TvDetails', params: { showId } });
 }
 
 </script>
@@ -45,17 +45,23 @@ function openTv(showId) {
 <template>
     <h1>Programas de TV</h1>
     <ul class="genre-list">
-        <li v-for="genre in genreStore.genres" :key="genre.id" @click="listTv(genre.id)" class="genre-item" :class="{ active: genre.id === genreStore.currentGenreId }"> {{ genre.name }} </li>
+        <li v-for="genre in genreStore.genres" :key="genre.id" @click="listTv(genre.id)" class="genre-item"
+            :class="{ active: genre.id === genreStore.currentGenreId }"> {{ genre.name }} </li>
     </ul>
+
+    <hr />
+
     <loading v-model:active="isLoading" is-full-page />
     <div class="tv-list">
         <div v-for="show in shows" :key="show.id" class="tv-card">
-            <img :src="`https://image.tmdb.org/t/p/w500${show.poster_path}`" :alt="show.name" @click="openTv(show.id)" />
+            <img :src="`https://image.tmdb.org/t/p/w500${show.poster_path}`" :alt="show.name"
+                @click="openTv(show.id)" />
             <div class="tv-details">
                 <p class="tv-title">{{ show.name }}</p>
                 <p class="tv-realese-date">{{ show.first_air_date }}</p>
                 <p class="tv-genres">
-                    <span v-for="genre_id in show.genre_ids" :key="genre_id" @click="listTv(genre_id)" :class="{ active: genre_id === genreStore.currentGenreId}">
+                    <span v-for="genre_id in show.genre_ids" :key="genre_id" @click="listTv(genre_id)"
+                        :class="{ active: genre_id === genreStore.currentGenreId }">
                         {{ genreStore.getGenreName(genre_id) }}
                     </span>
                 </p>
@@ -65,32 +71,49 @@ function openTv(showId) {
 </template>
 
 <style scoped>
+hr {
+    color: #dfdfdf89;
+    margin: 2rem 0 0 0;
+}
+
 .tv-list {
+    justify-content: center;
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 2rem;
+    padding: 2rem;
+    margin: 1.5rem 6rem 0 6rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.237);
+    background-color: rgba(0, 0, 0, 0.011);
+    border-radius: 0.5rem;
 }
 
 .tv-card {
+    background-color: white;
     width: 15rem;
-    height: 30rem;
+    height: 35rem;
     border-radius: 0.5rem;
     overflow: hidden;
-    box-shadow: 0 0 0.5rem #000;
+    box-shadow: 0 0 0.5rem rgb(219, 219, 219);
 }
 
 .tv-card img {
-    width: 100%;
+    width: 95%;
     height: 20rem;
+    margin: 0.5vw 0 0 0;
+    transform: translateX(2.5%);
     border-radius: 0.5rem;
-    box-shadow: 0 0 0.5rem #000;
+    box-shadow: 0 0 0.5rem rgb(165, 165, 165);
 }
 
 .tv-details {
-    padding: 0 0 0.5rem;
+    font-size: 1.2rem;
+    text-align: center;
+    margin: 0.5vw 0.1rem 0 0.1rem;
 }
 
 .tv-genres {
+    margin: 1rem 0.5vw 0 0.5vw;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -136,7 +159,7 @@ function openTv(showId) {
 }
 
 .genre-item {
-    background-color: #5d6424;
+    background-color: #616543;
     border-radius: 1rem;
     padding: 0.5rem 1rem;
     align-self: center;
